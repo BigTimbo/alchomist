@@ -1,0 +1,22 @@
+.App {
+
+}
+
+.main {
+    min-height: 80vh;
+    max-height: 80vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    z-index: 1;
+    position: relative;
+}
+
+.theme{
+    background-color: #2a3940;
+}
+
+.footer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

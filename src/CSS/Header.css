@@ -1,0 +1,15 @@
+.header{
+ min-height: 8vh;
+ max-height: 8vh;
+}
+.header p{
+ margin: 0;
+}
+/*		 		Fullscreen			 */
+@media screen and (min-width: 59em) {
+
+}
+/*		 	Tablet/Mobile				 */
+@media screen and  (max-width: 59em){
+
+}
