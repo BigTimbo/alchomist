@@ -1,32 +1,41 @@
 .footer{
     min-height: 8vh;
     max-height: 8vh;
+    display: table;
 }
 .footer p{
     margin: 0;
 }
 .cutout{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 12vh;
     width: 16vh;
     background-color: white;
     border-radius: 50%;
     position: fixed;
-    text-align: center;
     bottom: 2vh;
-    Left: 34vw;
+    Left: 50vw;
     z-index: 0;
+    transform: translateX(-50%);
 }
 
 .homeButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 9vh;
     width: 9vh;
     background-color: #c47062;
     border-radius: 50%;
     position: fixed;
     bottom: 3vh;
-    Left: 42vw;
+    Left: 50vw;
     z-index: 1;
+    transform: translateX(-50%);
 }
+
 /*		 		Fullscreen			 */
 @media screen and (min-width: 59em) {
 
