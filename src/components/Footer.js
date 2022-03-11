@@ -1,6 +1,8 @@
 import React from 'react';
 import '../CSS/Footer.css';
-
+import {Link} from "react-router-dom";
+import SettingsIcon from '../media/settings-icon.png';
+import ProfileIcon from '../media/profile-icon.png';
 /**
  * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
  * @see {@link https://github.com/BigTimbo/zapApp}
@@ -11,32 +13,14 @@ import '../CSS/Footer.css';
 function header() {
     return (
         <div className="footer">
-            <p>Footer</p>
-            {/*<div className="socials">*/}
-            {/*    <div className="socialText">*/}
-            {/*        <span>Follow us on social media</span>*/}
-            {/*    </div>*/}
-            {/*    <div className="twitter">*/}
-            {/*        <a aria-label="Twitter" href="/">*/}
-            {/*            <img width="30px" height="30px" className="icon" src={Twitter} alt="Twitter Icon"/>*/}
-            {/*        </a>*/}
-            {/*    </div>*/}
-            {/*    <div className="facebook">*/}
-            {/*        <a aria-label="Facebook" href="/">*/}
-            {/*            <img width="30px" height="30px" className="icon" src={Facebook} alt="Facebook Icon"/>*/}
-            {/*        </a>*/}
-            {/*    </div>*/}
-            {/*    <div className="instagram">*/}
-            {/*        <a aria-label="Instagram" href="/">*/}
-            {/*            <img width="30px" height="30px" className="icon" src={Instagram} alt="Instagram Icon"/>*/}
-            {/*        </a>*/}
-            {/*    </div>*/}
-            {/*    <div className="youtube">*/}
-            {/*        <a aria-label="Youtube" href="/">*/}
-            {/*            <img width="30px" height="30px" className="icon" src={Youtube} alt="Youtube Icon"/>*/}
-            {/*        </a>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+            <div>
+                <Link to="/Settings">
+                    <img src={SettingsIcon} className="settingsIcon" alt="Settings Icon"/>
+                </Link>
+                <Link to="/Profile">
+                    <img src={ProfileIcon} className="profileIcon" alt="Profile Icon"/>
+                </Link>
+            </div>
         </div>
     )
 }

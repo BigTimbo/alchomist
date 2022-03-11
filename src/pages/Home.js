@@ -16,6 +16,15 @@ class Home extends React.Component {
             theme: null,
         }
     }
+    componentDidMount() {
+        if (localStorage.getItem("theme") === "light" || localStorage.getItem("theme") === "dark"){
+            this.setState({theme: localStorage.getItem("theme")});
+        }else{
+            this.setState({theme: "light"});
+        }
+
+    }
+
     handleClick() {
         if (localStorage.getItem("theme") === "light"){
             localStorage.setItem("theme", "dark");
@@ -24,7 +33,6 @@ class Home extends React.Component {
             localStorage.setItem("theme", "light");
             this.setState({theme: "light"});
         }
-        console.log(this.state.theme);
         window.location.reload(false);
     }
     render(){

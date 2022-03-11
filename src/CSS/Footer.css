@@ -6,6 +6,20 @@
     margin: 0;
 }
 
+.settingsIcon{
+    width: 6vh;
+    height: 6vh;
+    margin-top: 1vh;
+    margin-left: 1vh;
+}
+.profileIcon{
+    width: 6vh;
+    height: 6vh;
+    margin-top: 1vh;
+    margin-right: 1vh;
+    float: right;
+}
+
 /*		 		Fullscreen			 */
 @media screen and (min-width: 59em) {
 
