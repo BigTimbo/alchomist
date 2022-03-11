@@ -1,5 +1,5 @@
 import React from 'react';
-import '../CSS/Home.css';
+import '../CSS/Settings.css';
 
 /**
  * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
@@ -14,23 +14,44 @@ class Settings extends React.Component {
         super(props);
         this.state = {
             theme: null,
+            checked: true,
         }
     }
     componentDidMount() {
         if (localStorage.getItem("theme") === "light" || localStorage.getItem("theme") === "dark"){
             this.setState({theme: localStorage.getItem("theme")});
+            this.setState({checked: localStorage.getItem("theme") === "light"});
         }else{
             this.setState({theme: "light"});
+            this.setState({checked: true});
         }
+    }
+
+    handleChange() {
+        if (localStorage.getItem("theme") === "light"){
+            localStorage.setItem("theme", "dark");
+            this.setState({theme: "dark"});
+        }else{
+            localStorage.setItem("theme", "light");
+            this.setState({theme: "light"});
+        }
+        this.setState({checked: !this.state.checked})
+        window.location.reload(false);
     }
 
     render(){
         return (
-            <div className="profile">
-                <h1>Settings</h1>
+            <div className="home">
+                <div className="headerContent">
+                    <label className="switch">
+                        <p>checkbox</p>
+                        <input type="checkbox" checked={this.state.checked} onChange={() => {this.handleChange()}}/>
+                        <span className="slider round" />
+                    </label>
+                </div>
+                <h1 className="title">Settings</h1>
             </div>
         )
     }
-
 }
 export default Settings;

@@ -1,5 +1,5 @@
 import React from 'react';
-import '../CSS/Home.css';
+import '../CSS/Profile.css';
 
 /**
  * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
