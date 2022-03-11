@@ -12,8 +12,6 @@ function header() {
     return (
         <div className="footer">
             <p>Footer</p>
-            <div className="homeButton"> </div>
-            <div className="cutout" />
             {/*<div className="socials">*/}
             {/*    <div className="socialText">*/}
             {/*        <span>Follow us on social media</span>*/}

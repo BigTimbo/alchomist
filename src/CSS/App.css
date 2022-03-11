@@ -1,8 +1,4 @@
-.App {
-
-}
-
-.main {
+.body{
     min-height: 80vh;
     max-height: 80vh;
     overflow-x: hidden;
@@ -11,8 +7,49 @@
     position: relative;
 }
 
-.theme{
+.lightPrimary {
+    background-color: white;
+}
+
+.lightSecondary{
     background-color: #2a3940;
+}
+
+.darkPrimary{
+    background-color: #2a3940;
+}
+
+.darkSecondary{
+    background-color: white;
+}
+
+.cutout{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 12vh;
+    width: 16vh;
+    border-radius: 50%;
+    position: fixed;
+    bottom: 2vh;
+    Left: 50vw;
+    z-index: 0;
+    transform: translateX(-50%);
+}
+
+.homeButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 9vh;
+    width: 9vh;
+    background-color: #c47062;
+    border-radius: 50%;
+    position: fixed;
+    bottom: 3vh;
+    Left: 50vw;
+    z-index: 1;
+    transform: translateX(-50%);
 }
 
 .footer{
