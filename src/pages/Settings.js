@@ -41,7 +41,7 @@ class Settings extends React.Component {
 
     render(){
         return (
-            <div className="home">
+            <div className="settings">
                 <div className="headerContent">
                     <label className="switch">
                         <p>checkbox</p>

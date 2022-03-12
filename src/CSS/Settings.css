@@ -1,9 +1,8 @@
 .headerContent{
     position: fixed;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 2vh;
+    width: 100%;
+    margin-top: 0;
 }
 /* The switch - the box around the slider */
 .switch {
@@ -11,6 +10,8 @@
     display: inline-block;
     width: 60px;
     height: 34px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .switch p{
