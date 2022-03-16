@@ -3,7 +3,7 @@
     max-height: 80vh;
     overflow-x: hidden;
     overflow-y: scroll;
-    z-index: 1;
+    z-index: 3;
     position: relative;
 }
 .homeIcon{

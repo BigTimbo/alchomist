@@ -1,4 +1,48 @@
+.homeHeaderContent{
+    position: fixed;
+    top: 0;
+}
+.selectedBox{
+    width: 8vh;
+    height: 8vh;
+    position: fixed;
+    background-color: white;
+    z-index: -1;
+}
+.left{
+    left: 0;
+}
+.middle{
+    left: 50%;
+    transform: translateX(-50%);
+}
+.right{
+    right: 0;
+}
 
+.ingredientsIcon{
+    margin-top: 1vh;
+    width: 6vh;
+    height: 6vh;
+    margin-left: 1vh;
+    z-index: 1;
+}
+.recipesIcon{
+    margin-top: 1vh;
+    width: 6vh;
+    height: 6vh;
+    position: fixed;
+    z-index: 1;
+}
+
+.filtersIcon{
+    margin-top: 1vh;
+    width: 6vh;
+    height: 6vh;
+    margin-right: 1vh;
+    position: fixed;
+    z-index: 1;
+}
 /*		 		Fullscreen			 */
 @media screen and (min-width: 59em), screen and (min-height: 62em) {
 

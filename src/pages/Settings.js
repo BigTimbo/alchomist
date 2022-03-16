@@ -1,5 +1,7 @@
 import React from 'react';
 import '../CSS/Settings.css';
+import sunIcon from '../media/sun-icon.png';
+import moonIcon from '../media/moon-icon.png';
 
 /**
  * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
@@ -42,12 +44,14 @@ class Settings extends React.Component {
     render(){
         return (
             <div className="home">
-                <div className="headerContent">
+                <div className="settingsHeaderContent">
+                    <img src={moonIcon} className={"moonIcon"} />
                     <label className="switch">
                         <p>checkbox</p>
                         <input type="checkbox" checked={this.state.checked} onChange={() => {this.handleChange()}}/>
                         <span className="slider round" />
                     </label>
+                    <img src={sunIcon} className={"sunIcon"} />
                 </div>
                 <h1 className="title">Settings</h1>
             </div>

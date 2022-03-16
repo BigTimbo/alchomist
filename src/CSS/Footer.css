@@ -1,6 +1,7 @@
 .footer{
     min-height: 8vh;
     max-height: 8vh;
+    z-index: 2;
 }
 .footer p{
     margin: 0;

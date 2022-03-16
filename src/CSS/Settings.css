@@ -1,10 +1,23 @@
-.headerContent{
+.settingsHeaderContent{
     position: fixed;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
     margin-top: 2vh;
 }
+.moonIcon{
+    width: 34px;
+    height: 34px;
+    float: left;
+    margin: 0 1vh 0 0;
+}
+.sunIcon{
+    width: 34px;
+    height: 34px;
+    float: right;
+    margin: 0 0 0 1vh;
+}
+
 /* The switch - the box around the slider */
 .switch {
     position: relative;
