@@ -6,7 +6,6 @@
     width: 8vh;
     height: 8vh;
     position: fixed;
-    background-color: white;
     z-index: -1;
 }
 .left{

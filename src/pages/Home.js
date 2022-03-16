@@ -29,7 +29,7 @@ class Home extends React.Component {
 
     }
     render(){
-        const selectedBox = <div className={"selectedBox " + this.state.selected} />;
+        const selectedBox = <div className={this.state.theme+"Primary selectedBox " + this.state.selected} />;
         return (
             <div className="home">
                 <div className="homeHeaderContent">
