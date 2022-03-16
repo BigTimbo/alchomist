@@ -2,6 +2,7 @@ import React from 'react';
 import '../CSS/Home.css';
 import ingredientsIcon from "../media/ingredients-icon.png";
 import filtersIcon from "../media/filters-icon.png";
+import recipesIcon from "../media/recipes-icon.png";
 
 /**
  * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
@@ -34,7 +35,7 @@ class Home extends React.Component {
                 <div className="homeHeaderContent">
                     {selectedBox}
                     <img src={ingredientsIcon} className={"ingredientsIcon left"} alt={"Ingredients icon"} onClick={()=>{this.setState({selected: "left"})}} />
-                    <img src={ingredientsIcon} className={"recipesIcon middle"} alt={"Ingredients icon"} onClick={()=>{this.setState({selected: "middle"})}} />
+                    <img src={recipesIcon} className={"recipesIcon middle"} alt={"Ingredients icon"} onClick={()=>{this.setState({selected: "middle"})}} />
                     <img src={filtersIcon} className={"filtersIcon right"} alt={"Filters icon"} onClick={()=>{this.setState({selected: "right"})}} />
                 </div>
                 <h1>Hello World!</h1>
