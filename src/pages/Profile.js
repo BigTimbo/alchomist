@@ -39,7 +39,7 @@ class Profile extends React.Component {
         }else{
             this.setState({theme: "light"});
         }
-        if (sessionStorage.getItem('userPreferences')){
+        if (sessionStorage.getItem('userID')){
             this.setState({loggedIn: true});
         }else{
             this.setState({loggedIn: false});
@@ -102,12 +102,12 @@ class Profile extends React.Component {
         /** Parse formData to sendPost method with abortController. */
         const response = await this.sendPost('http://localhost:63342/alchomist/src/PHP/users.php', data, this.controller);
         if (response.ok) {
+            console.log(response);
             // set session storage here
             const responseJSON = await response.json();
             sessionStorage.setItem('userID', responseJSON.userID);
             sessionStorage.setItem('email', responseJSON.email);
             this.setState({loggedIn: true});
-            console.log(`login:${email}, ${pass}`);
         }else{
             console.log(response);
         }
@@ -123,9 +123,8 @@ class Profile extends React.Component {
         /** Parse formData to sendPost method with abortController. */
         const response = await this.sendPost('http://localhost:63342/alchomist/src/PHP/users.php', data, this.controller);
         if (response.ok) {
-            this.setState({signUpOrLogIn: false});
             console.log(response);
-            console.log(`signup:${userName}, ${email}, ${pass}, ${passRpt}`);
+            this.setState({signUpOrLogIn: false});
         }else{
             console.log(response);
         }
