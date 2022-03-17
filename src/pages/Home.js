@@ -123,7 +123,7 @@ class Home extends React.Component {
     handleClick(evt){
         switch (evt.target.id) {
             case "left":
-                this.setState({selected: "left"});
+                this.setState({selected: "ingredients"});
                 this.setState({homeContent:
                         <div>
                             <p>Ingredients</p>
@@ -131,11 +131,11 @@ class Home extends React.Component {
                 })
                 break;
             case "middle":
-                this.setState({selected: "middle"});
+                this.setState({selected: "recipes"});
                 this.buildTable(JSON.parse(localStorage.getItem('cocktails')));
                 break;
             case "right":
-                this.setState({selected: "right"});
+                this.setState({selected: "filters"});
                 this.setState({homeContent:
                         <div>
                             <p>Filters</p>
@@ -158,9 +158,9 @@ class Home extends React.Component {
             <div className="home">
                 <div className="homeHeaderContent">
                     {selectedBox}
-                    <img id={"left"} src={ingredientsIcon} className={"ingredientsIcon left"} alt={"Ingredients icon"} onClick={(evt)=>{this.handleClick(evt)}} />
-                    <img ref={this.state.homeRef} id={"middle"} src={recipesIcon} className={"recipesIcon middle"} alt={"Ingredients icon"} onClick={(evt)=>{this.handleClick(evt)}} />
-                    <img id={"right"} src={filtersIcon} className={"filtersIcon right"} alt={"Filters icon"} onClick={(evt)=>{this.handleClick(evt)}} />
+                    <img id={"left"} src={ingredientsIcon} className={"ingredientsIcon ingredients"} alt={"Ingredients icon"} onClick={(evt)=>{this.handleClick(evt)}} />
+                    <img ref={this.state.homeRef} id={"middle"} src={recipesIcon} className={"recipesIcon recipes"} alt={"Ingredients icon"} onClick={(evt)=>{this.handleClick(evt)}} />
+                    <img id={"right"} src={filtersIcon} className={"filtersIcon filters"} alt={"Filters icon"} onClick={(evt)=>{this.handleClick(evt)}} />
                 </div>
                 {this.state.homeContent}
             </div>

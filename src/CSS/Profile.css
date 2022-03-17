@@ -1,0 +1,71 @@
+.profile{
+    position: relative;
+    height: 80vh;
+    display: flex;
+}
+.profile fieldset{
+    border: none;
+}
+.profile input{
+    width: 80vw;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #2a3940;
+    border-image: initial;
+    height: 5vh;
+}
+.profile label{
+    font-weight: bold;
+}
+.hint{
+    width: 80vw;
+    color: grey;
+    font-size: 13px;
+    margin: 0 auto 0 auto;
+}
+.validateErr{
+    color: red;
+}
+.profileHeaderContent{
+    position: fixed;
+    top: 0;
+}
+.profileHeaderContent h1{
+    font-size: 4vh;
+    color: #d4c7a9;
+    margin: 1.75vh 0 0 0;
+}
+.profileHeaderContent h3{
+    font-size: 2vh;
+    color: #d4c7a9;
+    margin: 3vh 0 0 0;
+}
+.left{
+    position: fixed;
+    left: 0;
+}
+.middle{
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.right{
+    position: fixed;
+    right: 0;
+}
+.login, .signup{
+    display: block;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: center;
+    width: 100%;
+}
+.submit{
+    background-color: #d4c7a9;
+    color: #2a3940;
+    border: none;
+    height: 30px;
+    width: 100px;
+    font-weight: bold;
+    border-radius: 20px;
+}

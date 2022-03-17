@@ -136,7 +136,7 @@ class Profile extends React.Component {
     }
     render(){
         const userNameErr = this.state.userNameErr ? (
-            <p className="validateErr">User name must be alphanumeric up to 12 characters, special characters only include underscore, hyphen or spaces.</p>
+            <p className="validateErr">Please enter a valid user name.</p>
         ) : (
             ""
         );
@@ -146,7 +146,7 @@ class Profile extends React.Component {
             ""
         );
         const passErr = this.state.passErr ? (
-            <p className="validateErr">Passwords must be more than 8 characters long and contain at least one symbol, number, uppercase & lowercase character</p>
+            <p className="validateErr">Please enter a valid password.</p>
         ) : (
             ""
         );
@@ -157,69 +157,75 @@ class Profile extends React.Component {
         );
         const loggedIn = this.state.loggedIn ?
             (<div>
+                <div className="profileHeaderContent">
+                    <h3 className={"left"} onClick={() => {this.handleClick()}}>Sign out</h3>
+                    <h1 className={"middle"}>{sessionStorage.getItem('userID')}</h1>
+                </div>
                 <h1>Welcome {sessionStorage.getItem('email')} you are user {sessionStorage.getItem('userID')}!</h1>
-                <button type="submit" name="submit" onClick={() => {this.handleClick()}}>Sign out</button>
             </div>)
             :
             (this.state.signUpOrLogIn ? (
                 <section className="signup">
-                    <h1>Sign up</h1>
-                    <form id="signUp" encType="multipart/form-data" onSubmit={async (evt) => {
+                    <div className="profileHeaderContent">
+                        <h1 className={"middle"}>Sign up</h1>
+                    </div>
+                    <form className={"form"} id="signUp" encType="multipart/form-data" onSubmit={async (evt) => {
                         await this.handleSubmit(evt)
                     }} method="post">
                         <fieldset>
-                            <legend><label htmlFor="signupEmail">Email:</label></legend>
+                            <legend><label htmlFor="signupEmail">Email</label></legend>
                             <input type="text" name="signupEmail" placeholder="Enter your email" />
                             {emailErr}
                         </fieldset>
                         <fieldset>
-                            <legend><label htmlFor="signupPwd">Password:</label></legend>
+                            <legend><label htmlFor="signupPwd">Password</label></legend>
+                            <p className="hint">Passwords must be more than 8 characters long and contain at least one symbol, number, uppercase & lowercase character.</p>
                             <input type="password" name="signupPwd" placeholder="Enter your Password" />
                             {passErr}
                         </fieldset>
                         <fieldset>
-                            <legend><label htmlFor="pwdRepeat">Repeat Password:</label></legend>
+                            <legend><label htmlFor="pwdRepeat">Repeat Password</label></legend>
                             <input type="password" name="pwdRepeat" placeholder="Repeat your Password" />
                             {passRptErr}
                         </fieldset>
                         <fieldset>
-                            <legend><label htmlFor="signupUserName">User Name:</label></legend>
+                            <legend><label htmlFor="signupUserName">User Name</label></legend>
+                            <p className="hint">User name must be alphanumeric up to 12 characters, special characters only include underscore, hyphen or spaces.</p>
                             <input type="text" name="signupUserName" placeholder="Enter your user name" />
                             {userNameErr}
                         </fieldset>
-                        <button type="submit" name="signUpSubmit">Sign up</button>
                         <p className="loginSwitch" onClick={() => {
                             this.setState({signUpOrLogIn: false})
-                        }}>Already have an account? Log in here</p>
+                        }}>Already have an account? <u>Log in here</u></p>
+                        <button className={"submit"} type="submit" name="signUpSubmit">Submit</button>
                     </form>
                 </section>
             ) : (
                 <section className="login">
-                    <h1>Log in</h1>
-                    <form id="logIn" encType="multipart/form-data" onSubmit={async (evt) => {await this.handleSubmit(evt)}} method="post">
+                    <div className="profileHeaderContent">
+                        <h1 className={"middle"}>Log in</h1>
+                    </div>
+                    <form className={"form"} id="logIn" encType="multipart/form-data" onSubmit={async (evt) => {await this.handleSubmit(evt)}} method="post">
                         <fieldset>
-                            <legend><label htmlFor="loginEmail">Email:</label></legend>
+                            <legend><label htmlFor="loginEmail">Email</label></legend>
                             <input type="text" name="loginEmail" placeholder="Enter your email" />
                             {emailErr}
                         </fieldset>
                         <fieldset>
-                            <legend><label htmlFor="loginPwd">Password:</label></legend>
+                            <legend><label htmlFor="loginPwd">Password</label></legend>
                             <input type="password" name="loginPwd" placeholder="Enter your Password" />
                             {passErr}
                         </fieldset>
-                        <button type="submit" name="logInSubmit">Log in</button>
                         <p className="signupSwitch" onClick={() =>{
                             this.setState({signUpOrLogIn: true})
-                        }}>Don't have an account? Sign up here</p>
+                        }}>Don't have an account? <u>Sign up here</u></p>
+                        <button className={"submit"} type="submit" name="logInSubmit">Submit</button>
                     </form>
                 </section>
             ));
         return (
-            <div className="home">
-                <div className="parallax"/>
-                <div className="homeContent">
-                    {loggedIn}
-                </div>
+            <div className="profile">
+                {loggedIn}
             </div>
         )
     }

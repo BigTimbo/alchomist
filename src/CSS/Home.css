@@ -8,14 +8,14 @@
     position: fixed;
     z-index: -1;
 }
-.left{
+.ingredients{
     left: 0;
 }
-.middle{
+.recipes{
     left: 50%;
     transform: translateX(-50%);
 }
-.right{
+.filters{
     right: 0;
 }
 
