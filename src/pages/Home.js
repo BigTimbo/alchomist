@@ -79,6 +79,13 @@ class Home extends React.Component {
         }
     }
     /**
+     * This is a React method that is called when the component is unmounted on exit.
+     * The abort controller is activated which accounts for any ongoing fetch requests that could cause memory leaks.
+     */
+    componentWillUnmount() {
+        this.controller.abort();
+    }
+    /**
      * This method is called to construct the table with the dynamically produced JSON content parsed in the json parameter.
      * @param json JSON String
      */
