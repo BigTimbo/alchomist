@@ -27,8 +27,9 @@ class cocktails extends DB
                     'cocktailID' => $row['cocktailID'],
                     'creatorID' => $row['creatorID'],
                     'cocktailName' => $row['cocktailName'],
-                    'ingredients' => $row['ingredients'],
-                    'image' => $row['image']
+                    'recipe' => $row['recipe'],
+                    'image' => $row['image'],
+                    'category' => $row['category']
                 ];
             }
         }else{
