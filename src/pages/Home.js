@@ -107,11 +107,11 @@ class Home extends React.Component {
             for (let i = 0; i < json.cocktails.length; i++) {
                 if (json.cocktails[i].creatorID === null){
                     IBAContent.push(
-                        <p key={json.cocktails[i].cocktailID}>{json.cocktails[i].cocktailName}</p>
+                        <p id={json.cocktails[i].cocktailID} key={json.cocktails[i].cocktailID} onClick={(evt)=>{this.buildRecipe(evt)}}>{json.cocktails[i].cocktailName}</p>
                     );
                 }else{
                     communityContent.push(
-                        <p key={json.cocktails[i].cocktailID}>{json.cocktails[i].cocktailName}</p>
+                        <p id={json.cocktails[i].cocktailID} key={json.cocktails[i].cocktailID}>{json.cocktails[i].cocktailName}</p>
                     );
                 }
             }
@@ -119,6 +119,39 @@ class Home extends React.Component {
             /** Set the states for both sightingsMap and content to the relevant array content constructed above. */
             this.setState({homeContent : content});
         }
+    }
+    buildRecipe(evt){
+        let cocktails = localStorage.getItem('cocktails');
+        cocktails = cocktails.replace(/\\n/g, "\\n")
+            .replace(/\\'/g, "\\'")
+            .replace(/\\"/g, '\\"')
+            .replace(/\\&/g, "\\&")
+            .replace(/\\r/g, "\\r")
+            .replace(/\\t/g, "\\t")
+            .replace(/\\b/g, "\\b")
+            .replace(/\\f/g, "\\f");
+        // eslint-disable-next-line no-control-regex
+        cocktails = cocktails.replace(/[\u0000-\u001F]+/g,"");
+        const cocktail = JSON.parse(cocktails).cocktails[evt.target.id-1];
+        const recipe = (JSON.parse(cocktail.recipe)).recipe[0];
+        const ingredients = [];
+        for (const ingredientsKey in recipe.Ingredients) {
+            ingredients.push(
+                    <li key={ingredientsKey}>{ingredientsKey} : {recipe.Ingredients[ingredientsKey]}</li>
+                );
+        }
+        this.setState({homeContent:
+                <div className={"cocktailRecipe"}>
+                    <h1>{cocktail.cocktailName}</h1>
+                    <img className={"recipeIMG"} src={'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/' + cocktail.image} alt={""}/>
+                    <h2>Ingredients</h2>
+                    <ul>{ingredients}</ul>
+                    <h2>Garnish</h2>
+                    <p>{recipe.Garnish}</p>
+                    <h2>Method</h2>
+                    <p>{recipe.Method}</p>
+                </div>
+        })
     }
 
     handleClick(evt){
@@ -145,8 +178,6 @@ class Home extends React.Component {
                     .replace(/\\f/g, "\\f");
                 // eslint-disable-next-line no-control-regex
                 cocktails = cocktails.replace(/[\u0000-\u001F]+/g,"");
-                const test = (JSON.parse(JSON.parse(cocktails).cocktails[0].recipe)).recipe[0];
-                console.log(test);
                 this.buildTable(JSON.parse(cocktails));
                 break;
             case "right":

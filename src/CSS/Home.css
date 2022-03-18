@@ -8,6 +8,11 @@ details summary::before {
     margin-right: 5vw;
     /* you can style it however you want, use background-image for example */
 }
+.recipeIMG{
+    width: 100vw;
+    height: 30vh;
+    object-fit: contain;
+}
 
 /* By using [open] we can define different styles when the disclosure widget is open */
 details[open] summary::before {
