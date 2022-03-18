@@ -106,7 +106,8 @@ class Profile extends React.Component {
             // set session storage here
             const responseJSON = await response.json();
             sessionStorage.setItem('userID', responseJSON.userID);
-            sessionStorage.setItem('email', responseJSON.email);
+            sessionStorage.setItem('userName', responseJSON.userName);
+            sessionStorage.setItem('preferences', responseJSON.preferences);
             this.setState({loggedIn: true});
         }else{
             console.log(response);
@@ -159,9 +160,9 @@ class Profile extends React.Component {
             (<div>
                 <div className="profileHeaderContent">
                     <h3 className={"left"} onClick={() => {this.handleClick()}}>Sign out</h3>
-                    <h1 className={"middle"}>{sessionStorage.getItem('userID')}</h1>
+                    <h1 className={"middle"}>{sessionStorage.getItem('userName')}</h1>
                 </div>
-                <h1>Welcome {sessionStorage.getItem('email')} you are user {sessionStorage.getItem('userID')}!</h1>
+                <h1>Welcome {sessionStorage.getItem('userName')} you are user {sessionStorage.getItem('userID')}!</h1>
             </div>)
             :
             (this.state.signUpOrLogIn ? (

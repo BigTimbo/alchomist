@@ -186,7 +186,8 @@ class users extends DB
                 }
                 $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $this->response['userID'] = $user[0]['userID'];
-                $this->response['email'] = $user[0]['email'];
+                $this->response['userName'] = $user[0]['userName'];
+                $this->response['preferences'] = $user[0]['preferences'];
                 $stmt = null;
             }
         }
