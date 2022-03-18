@@ -1,3 +1,19 @@
+summary {list-style: none}
+summary::-webkit-details-marker {display: none;}
+details summary::before {
+    content:"▸";
+    font-size: 30px;
+    position: fixed;
+    right: 0;
+    margin-right: 5vw;
+    /* you can style it however you want, use background-image for example */
+}
+
+/* By using [open] we can define different styles when the disclosure widget is open */
+details[open] summary::before {
+    content:"▾";
+}
+
 .homeHeaderContent{
     position: fixed;
     top: 0;
