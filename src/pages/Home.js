@@ -28,6 +28,7 @@ class Home extends React.Component {
             online: null,
             loading: null,
             cocktails: null,
+            collapsed: false,
         }
     }
     async componentDidMount() {
@@ -93,11 +94,11 @@ class Home extends React.Component {
         /** Initialise content & mapContent arrays and baseURL string. */
         const IBAContent = [];
         IBAContent.push(
-            <h1 key="0">IBA Cocktails</h1>
+            <summary key="0"><h1>IBA Cocktails</h1></summary>
         );
         const communityContent = [];
         communityContent.push(
-            <h1 key="-1">Community Cocktails</h1>
+            <summary key="-1"><h1>Community Cocktails</h1></summary>
         );
 
         /** Check if JSON has header sightings. */
@@ -114,7 +115,7 @@ class Home extends React.Component {
                     );
                 }
             }
-            const content = IBAContent.concat(communityContent);
+            const content = [<details open={true} key="0">{IBAContent} </details>].concat([<details open={true} key="-1">{communityContent}</details>]);
             /** Set the states for both sightingsMap and content to the relevant array content constructed above. */
             this.setState({homeContent : content});
         }
@@ -132,7 +133,21 @@ class Home extends React.Component {
                 break;
             case "middle":
                 this.setState({selected: "recipes"});
-                this.buildTable(JSON.parse(localStorage.getItem('cocktails')));
+                /** Clean up hidden/special chars for clean JSON.parse **/
+                let cocktails = localStorage.getItem('cocktails');
+                cocktails = cocktails.replace(/\\n/g, "\\n")
+                    .replace(/\\'/g, "\\'")
+                    .replace(/\\"/g, '\\"')
+                    .replace(/\\&/g, "\\&")
+                    .replace(/\\r/g, "\\r")
+                    .replace(/\\t/g, "\\t")
+                    .replace(/\\b/g, "\\b")
+                    .replace(/\\f/g, "\\f");
+                // eslint-disable-next-line no-control-regex
+                cocktails = cocktails.replace(/[\u0000-\u001F]+/g,"");
+                const test = (JSON.parse(JSON.parse(cocktails).cocktails[0].recipe)).recipe[0];
+                console.log(test);
+                this.buildTable(JSON.parse(cocktails));
                 break;
             case "right":
                 this.setState({selected: "filters"});
