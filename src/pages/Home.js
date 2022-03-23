@@ -193,6 +193,7 @@ class Home extends React.Component {
                 this.setState({selected: "ingredients"});
                 this.setState({homeContent:
                         <div>
+                            <button>Check recipes</button>
                             <h1>Ingredients</h1>
                             {ingredients}
                         </div>
@@ -208,6 +209,24 @@ class Home extends React.Component {
                 this.setState({homeContent:
                         <div>
                             <h1>Filters</h1>
+                            <div className={"search"}>
+                                <h2>Search</h2>
+                                <input type="text" />
+                                <button>Search</button>
+                            </div>
+                            <div className={"sortBy"}>
+                                <h2>Sort By</h2>
+                                <label htmlFor="alphabetical">Alphabetical</label>
+                                <input type={"radio"} id="alphabetical" name="sort" value="alphabetical"/>
+                                <label htmlFor="Favoured">Most Favoured</label>
+                                <input type={"radio"} id="Favoured" name="sort" value="Favoured"/>
+                                <label htmlFor="newest">Newest</label>
+                                <input type={"radio"} id="newest" name="sort" value="newest"/>
+                                <label htmlFor="oldest">Oldest</label>
+                                <input type={"radio"} id="oldest" name="sort" value="oldest"/>
+                                <button>Filter</button>
+                            </div>
+
                         </div>
                 })
                 break;

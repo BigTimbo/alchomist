@@ -9,6 +9,9 @@
     z-index: 3;
     position: relative;
 }
+h1{
+    text-align: center;
+}
 .homeIcon{
     width: 6vh;
     height: 6vh;

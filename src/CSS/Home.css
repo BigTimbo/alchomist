@@ -1,3 +1,11 @@
+.search input{
+    width: 100vw;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #2a3940;
+    border-image: initial;
+    height: 5vh;
+}
 .homeRefresh{
     width: 8vh;
     height: 8vh;
@@ -46,7 +54,7 @@ details summary::before {
     font-size: 30px;
     position: fixed;
     right: 0;
-    margin-right: 5vw;
+    margin-right: 2vw;
     /* you can style it however you want, use background-image for example */
 }
 .recipeIMG{
