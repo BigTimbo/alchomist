@@ -216,17 +216,24 @@ class Home extends React.Component {
                             </div>
                             <div className={"sortBy"}>
                                 <h2>Sort By</h2>
-                                <label htmlFor="alphabetical">Alphabetical</label>
-                                <input type={"radio"} id="alphabetical" name="sort" value="alphabetical"/>
-                                <label htmlFor="Favoured">Most Favoured</label>
-                                <input type={"radio"} id="Favoured" name="sort" value="Favoured"/>
-                                <label htmlFor="newest">Newest</label>
-                                <input type={"radio"} id="newest" name="sort" value="newest"/>
-                                <label htmlFor="oldest">Oldest</label>
-                                <input type={"radio"} id="oldest" name="sort" value="oldest"/>
+                                <div className={"ingredientsList"} onClick={(evt) => {evt.target.lastChild.click()}}>
+                                    <label htmlFor="alphabetical">Alphabetical</label>
+                                    <input type={"radio"} id="alphabetical" name="sort" value="alphabetical"/>
+                                </div>
+                                <div className={"ingredientsList"} onClick={(evt) => {evt.target.lastChild.click()}}>
+                                    <label htmlFor="Favoured">Most Favoured</label>
+                                    <input type={"radio"} id="Favoured" name="sort" value="Favoured"/>
+                                </div>
+                                <div className={"ingredientsList"} onClick={(evt) => {evt.target.lastChild.click()}}>
+                                    <label htmlFor="newest">Newest</label>
+                                    <input type={"radio"} id="newest" name="sort" value="newest"/>
+                                </div>
+                                <div className={"ingredientsList"} onClick={(evt) => {evt.target.lastChild.click()}}>
+                                    <label htmlFor="oldest">Oldest</label>
+                                    <input type={"radio"} id="oldest" name="sort" value="oldest"/>
+                                </div>
                                 <button>Filter</button>
                             </div>
-
                         </div>
                 })
                 break;

@@ -54,6 +54,14 @@ class Settings extends React.Component {
                     <img src={sunIcon} className={"sunIcon"} />
                 </div>
                 <h1 className="title">Settings</h1>
+                <div className={"ingredientsList"} onClick={(evt) => {evt.target.lastChild.click()}}>
+                    <label htmlFor={"garnish"}>Ignore Garnish</label>
+                    <input type={"checkbox"} value={"garnish"} id={"garnish"} name={"garnish"} />
+                </div>
+                <div className={"ingredientsList"} onClick={(evt) => {evt.target.lastChild.click()}}>
+                    <label htmlFor={"measureSystem"}>Use Imperial (US) System</label>
+                    <input type={"checkbox"} value={"measureSystem"} id={"measureSystem"} name={"measureSystem"} />
+                </div>
             </div>
         )
     }
