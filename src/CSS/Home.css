@@ -1,3 +1,44 @@
+.homeRefresh{
+    width: 8vh;
+    height: 8vh;
+    position: fixed;
+    bottom: 3.5vh;
+    z-index: -1;
+}
+.card{
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 75vw;
+    margin: 0 auto 0 auto;
+    padding: 1vh;
+}
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.cardContainer{
+    text-align: center;
+    font-size: 1.5em;
+}
+.cardContainer p{
+    margin: 0;
+}
+.ingredientsList label{
+    pointer-events: none;
+}
+.ingredientsList input{
+    margin: auto 5vw auto auto;
+    right: 0;
+    transform: scale(2);
+}
+.ingredientsList{
+    padding: 2vh 0 2vh 0;
+    font-size: 1.5em;
+    border-width: 2px;
+    border-style: solid;
+    border-bottom: none;
+    display: flex;
+}
+
 summary {list-style: none}
 summary::-webkit-details-marker {display: none;}
 details summary::before {
@@ -9,9 +50,10 @@ details summary::before {
     /* you can style it however you want, use background-image for example */
 }
 .recipeIMG{
-    width: 100vw;
     height: 30vh;
+    width: 100%;
     object-fit: contain;
+    margin: 0 auto 0 auto;
 }
 
 /* By using [open] we can define different styles when the disclosure widget is open */

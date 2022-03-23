@@ -3,6 +3,7 @@ import '../CSS/Home.css';
 import ingredientsIcon from "../media/ingredients-icon.png";
 import filtersIcon from "../media/filters-icon.png";
 import recipesIcon from "../media/recipes-icon.png";
+import parse from 'html-react-parser';
 
 /**
  * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
@@ -107,7 +108,13 @@ class Home extends React.Component {
             for (let i = 0; i < json.cocktails.length; i++) {
                 if (json.cocktails[i].creatorID === null){
                     IBAContent.push(
-                        <p id={json.cocktails[i].cocktailID} key={json.cocktails[i].cocktailID} onClick={(evt)=>{this.buildRecipe(evt)}}>{json.cocktails[i].cocktailName}</p>
+                        <div className={"card"} key={json.cocktails[i].cocktailID} id={json.cocktails[i].cocktailID} onClick={(evt)=>{this.buildRecipe(evt)}}>
+                            <img onError={(e) => {e.currentTarget.onerror = null; e.currentTarget.src = 'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/placeholder.png'}} id={json.cocktails[i].cocktailID} className={"recipeIMG"} src={'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/' + json.cocktails[i].image} alt={"cocktail image for" + json.cocktails[i].image}/>
+                            <div className={"cardContainer"}>
+                                <p id={json.cocktails[i].cocktailID}>{json.cocktails[i].cocktailName}</p>
+                            </div>
+                        </div>
+
                     );
                 }else{
                     communityContent.push(
@@ -143,48 +150,64 @@ class Home extends React.Component {
         this.setState({homeContent:
                 <div className={"cocktailRecipe"}>
                     <h1>{cocktail.cocktailName}</h1>
-                    <img className={"recipeIMG"} src={'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/' + cocktail.image} alt={""}/>
+                    <img className={"recipeIMG"} onError={(e) => {e.currentTarget.onerror = null; e.currentTarget.src = 'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/placeholder.png'}} src={'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/' + cocktail.image} alt={"cocktail image for" + cocktail.image}/>
+                    <h2>Category</h2>
+                    <ul>{cocktail.category}</ul>
+                    <h2>Originator</h2>
+                    <ul>{cocktail.creatorID === null ? "International Bartenders Association" : cocktail.creatorID}</ul>
                     <h2>Ingredients</h2>
                     <ul>{ingredients}</ul>
-                    <h2>Garnish</h2>
-                    <p>{recipe.Garnish}</p>
                     <h2>Method</h2>
                     <p>{recipe.Method}</p>
+                    <h2>Garnish</h2>
+                    <p>{recipe.Garnish === "" ? "None" : recipe.Garnish}</p>
                 </div>
         })
     }
 
+    getIngredients(json){
+        const ingredients = [];
+        const keys = [];
+        for (let i = 0; i < json.cocktails.length; i++) {
+            for (const ingredientsKey in JSON.parse(json.cocktails[i].recipe).recipe[0].Ingredients) {
+                const listItem = (
+                    <div className={this.state.theme+"Primary ingredientsList container"} key={ingredientsKey} onClick={(evt) => {evt.target.lastChild.click()}}>
+                        <label>{ingredientsKey}</label>
+                        <input type={"checkbox"} value={ingredientsKey} id={ingredientsKey} name={ingredientsKey} />
+                    </div>
+                );
+                if (!keys.includes(listItem.key)){
+                    keys.push(ingredientsKey);
+                    ingredients.push(listItem);
+                }
+            }
+        }
+        return ingredients;
+    }
     handleClick(evt){
+        window.scrollTo(0, 0);
+        let cocktails = localStorage.getItem('cocktails');
         switch (evt.target.id) {
             case "left":
+                const ingredients = this.getIngredients(JSON.parse(cocktails));
                 this.setState({selected: "ingredients"});
                 this.setState({homeContent:
                         <div>
-                            <p>Ingredients</p>
+                            <h1>Ingredients</h1>
+                            {ingredients}
                         </div>
                 })
                 break;
             case "middle":
                 this.setState({selected: "recipes"});
                 /** Clean up hidden/special chars for clean JSON.parse **/
-                let cocktails = localStorage.getItem('cocktails');
-                cocktails = cocktails.replace(/\\n/g, "\\n")
-                    .replace(/\\'/g, "\\'")
-                    .replace(/\\"/g, '\\"')
-                    .replace(/\\&/g, "\\&")
-                    .replace(/\\r/g, "\\r")
-                    .replace(/\\t/g, "\\t")
-                    .replace(/\\b/g, "\\b")
-                    .replace(/\\f/g, "\\f");
-                // eslint-disable-next-line no-control-regex
-                cocktails = cocktails.replace(/[\u0000-\u001F]+/g,"");
                 this.buildTable(JSON.parse(cocktails));
                 break;
             case "right":
                 this.setState({selected: "filters"});
                 this.setState({homeContent:
                         <div>
-                            <p>Filters</p>
+                            <h1>Filters</h1>
                         </div>
                 })
                 break;
@@ -209,6 +232,7 @@ class Home extends React.Component {
                     <img id={"right"} src={filtersIcon} className={"filtersIcon filters"} alt={"Filters icon"} onClick={(evt)=>{this.handleClick(evt)}} />
                 </div>
                 {this.state.homeContent}
+                <div ref={this.state.homeRef} id={"middle"} className={"homeRefresh recipes"} onClick={(evt)=>{this.handleClick(evt)}} />
             </div>
         )
     }
