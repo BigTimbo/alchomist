@@ -3,7 +3,6 @@ import '../CSS/Home.css';
 import ingredientsIcon from "../media/ingredients-icon.png";
 import filtersIcon from "../media/filters-icon.png";
 import recipesIcon from "../media/recipes-icon.png";
-import parse from 'html-react-parser';
 
 /**
  * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
@@ -47,7 +46,7 @@ class Home extends React.Component {
                 /** Set the online state true */
                 this.setState({online: true})
                 /** Send a fetch request to API which returns back the GET response. */
-                const response = await fetch('http://localhost:63342/alchomist/src/PHP/cocktails.php', this.controller);
+                const response = await fetch('https://ta459.brighton.domains/alchomist/PHP/cocktails.php', this.controller);
                 /** Check if response is OK. */
                 if (response.ok) {
                     /** Clear all previous locally stored content on key allSightings. */

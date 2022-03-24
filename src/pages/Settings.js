@@ -45,13 +45,13 @@ class Settings extends React.Component {
         return (
             <div className="home">
                 <div className="settingsHeaderContent">
-                    <img src={moonIcon} className={"moonIcon"} />
+                    <img src={moonIcon} className={"moonIcon"}  alt={"moon Icon"}/>
                     <label className="switch">
                         <p>checkbox</p>
                         <input type="checkbox" checked={this.state.checked} onChange={() => {this.handleChange()}}/>
                         <span className="slider round" />
                     </label>
-                    <img src={sunIcon} className={"sunIcon"} />
+                    <img src={sunIcon} className={"sunIcon"} alt={"Sun icon"}/>
                 </div>
                 <h1 className="title">Settings</h1>
                 <div className={"ingredientsList"} onClick={(evt) => {evt.target.lastChild.click()}}>

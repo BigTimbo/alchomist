@@ -105,7 +105,7 @@ class Profile extends React.Component {
         data.append('email', email);
         data.append('pass', pass);
         /** Parse formData to sendPost method with abortController. */
-        const response = await this.sendPost('http://localhost:63342/alchomist/src/PHP/users.php', data, this.controller);
+        const response = await this.sendPost('https://ta459.brighton.domains/alchomist/PHP/users.php', data, this.controller);
         if (response.ok) {
 
             console.log(response);
@@ -122,7 +122,7 @@ class Profile extends React.Component {
     }
     async profileContent(userID){
 
-        const response = await fetch('http://localhost:63342/alchomist/src/PHP/users.php?userID='+ userID);
+        const response = await fetch('https://ta459.brighton.domains/alchomist/PHP/users.php?userID='+ userID);
         if (response.ok){
             const responseJSON = await response.json();
             console.log(responseJSON);
@@ -154,7 +154,7 @@ class Profile extends React.Component {
         data.append('pass', pass);
         data.append('passRpt', passRpt);
         /** Parse formData to sendPost method with abortController. */
-        const response = await this.sendPost('http://localhost:63342/alchomist/src/PHP/users.php', data, this.controller);
+        const response = await this.sendPost('https://ta459.brighton.domains/alchomist/PHP/users.php', data, this.controller);
         if (response.ok) {
             console.log(response);
             this.setState({signUpOrLogIn: false});

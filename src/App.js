@@ -36,7 +36,7 @@ class App extends React.Component{
     render() {
         return (
                 <div className="App">
-                    <Router>
+                    <Router basename={"/alchomist"}>
                         <div className={this.state.theme+"Secondary"}>
                             <Header />
                         </div>
