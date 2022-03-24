@@ -114,11 +114,15 @@ class Home extends React.Component {
                                 <p id={json.cocktails[i].cocktailID}>{json.cocktails[i].cocktailName}</p>
                             </div>
                         </div>
-
                     );
                 }else{
                     communityContent.push(
-                        <p id={json.cocktails[i].cocktailID} key={json.cocktails[i].cocktailID}>{json.cocktails[i].cocktailName}</p>
+                        <div className={"card"} key={json.cocktails[i].cocktailID} id={json.cocktails[i].cocktailID} onClick={(evt)=>{this.buildRecipe(evt)}}>
+                            <img onError={(e) => {e.currentTarget.onerror = null; e.currentTarget.src = 'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/placeholder.png'}} id={json.cocktails[i].cocktailID} className={"recipeIMG"} src={'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/' + json.cocktails[i].image} alt={"cocktail image for" + json.cocktails[i].image}/>
+                            <div className={"cardContainer"}>
+                                <p id={json.cocktails[i].cocktailID}>{json.cocktails[i].cocktailName}</p>
+                            </div>
+                        </div>
                     );
                 }
             }

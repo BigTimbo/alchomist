@@ -1,5 +1,6 @@
 import React from 'react';
 import '../CSS/Profile.css';
+import add from '../media/add-icon.png';
 
 /**
  * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
@@ -23,7 +24,8 @@ class Profile extends React.Component {
             userNameErr: false,
             emailErr: false,
             passErr: false,
-            passRptErr: false
+            passRptErr: false,
+            profileContent: null
         }
     }
     /**
@@ -43,6 +45,9 @@ class Profile extends React.Component {
             this.setState({loggedIn: true});
         }else{
             this.setState({loggedIn: false});
+        }
+        if (sessionStorage.getItem('profileContent')){
+            this.buildContent(JSON.parse(sessionStorage.getItem('profileContent')));
         }
     }
     async handleSubmit(evt) {
@@ -102,6 +107,7 @@ class Profile extends React.Component {
         /** Parse formData to sendPost method with abortController. */
         const response = await this.sendPost('http://localhost:63342/alchomist/src/PHP/users.php', data, this.controller);
         if (response.ok) {
+
             console.log(response);
             // set session storage here
             const responseJSON = await response.json();
@@ -109,11 +115,37 @@ class Profile extends React.Component {
             sessionStorage.setItem('userName', responseJSON.userName);
             sessionStorage.setItem('preferences', responseJSON.preferences);
             this.setState({loggedIn: true});
+            await this.profileContent(responseJSON.userID);
         }else{
             console.log(response);
         }
     }
+    async profileContent(userID){
 
+        const response = await fetch('http://localhost:63342/alchomist/src/PHP/users.php?userID='+ userID);
+        if (response.ok){
+            const responseJSON = await response.json();
+            console.log(responseJSON);
+            this.buildContent(responseJSON);
+            sessionStorage.setItem('profileContent', JSON.stringify(responseJSON));
+        }else{
+            console.log(response);
+        }
+    }
+    buildContent(json){
+        const profileContent = [];
+        for (let i = 0; i < json.cocktails.length; i++) {
+            profileContent.push(
+                <div className={"card"} key={json.cocktails[i].cocktailID} id={json.cocktails[i].cocktailID}>
+                    <img onError={(e) => {e.currentTarget.onerror = null; e.currentTarget.src = 'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/placeholder.png'}} id={json.cocktails[i].cocktailID} className={"recipeIMG"} src={'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/' + json.cocktails[i].image} alt={"cocktail image for" + json.cocktails[i].image}/>
+                    <div className={"cardContainer"}>
+                        <p id={json.cocktails[i].cocktailID}>{json.cocktails[i].cocktailName}</p>
+                    </div>
+                </div>
+            );
+        }
+        this.setState({profileContent: profileContent});
+    }
     async signUp({userName, email, pass, passRpt}){
         const data = new FormData();
         /** Append all the state values to the respective formData key. */
@@ -157,12 +189,14 @@ class Profile extends React.Component {
             ""
         );
         const loggedIn = this.state.loggedIn ?
-            (<div>
+            (<div className={"loggedContent"}>
                 <div className="profileHeaderContent">
-                    <h3 className={"left"} onClick={() => {this.handleClick()}}>Sign out</h3>
+                    <h3 className={"left signOut"} onClick={() => {this.handleClick()}}>Sign out</h3>
                     <h1 className={"middle"}>{sessionStorage.getItem('userName')}</h1>
+                    <img className={"right addIcon"} src={add}  alt={"Add icon"}/>
                 </div>
-                <h1>Welcome {sessionStorage.getItem('userName')} you are user {sessionStorage.getItem('userID')}!</h1>
+                <h1>My Cocktails</h1>
+                {this.state.profileContent}
             </div>)
             :
             (this.state.signUpOrLogIn ? (

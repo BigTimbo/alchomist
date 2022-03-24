@@ -3,6 +3,9 @@
     height: 80vh;
     display: flex;
 }
+.loggedContent{
+    width: 100%;
+}
 .profile fieldset{
     border: none;
 }
@@ -16,6 +19,13 @@
 }
 .profile label{
     font-weight: bold;
+}
+.addIcon{
+    margin-top: 2vh;
+    width: 4vh;
+    height: 4vh;
+    margin-right: 1vh;
+    z-index: 1;
 }
 .hint{
     width: 80vw;
@@ -38,7 +48,7 @@
 .profileHeaderContent h3{
     font-size: 2vh;
     color: #d4c7a9;
-    margin: 3vh 0 0 0;
+    margin: 3vh 0 0 1vh;
 }
 .left{
     position: fixed;

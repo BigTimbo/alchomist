@@ -10,8 +10,7 @@ class cocktails extends DB
 
     public function handleRequest(){
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//          $this->post();
-            echo 'poo';
+            echo '';
         } else if ($_SERVER["REQUEST_METHOD"] == "GET") {
              $this->get();
         }

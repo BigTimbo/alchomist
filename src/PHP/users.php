@@ -21,10 +21,38 @@ class users extends DB
             }else if (!empty($_POST['email']) && !empty($_POST['pass'])){
                 $this->logIn($_POST['email'], $_POST['pass']);
             }
+        } else if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            $this->get($_GET['userID']);
         }
-//        else if ($_SERVER["REQUEST_METHOD"] == "GET") {
-//            $this->get();
-//        }
+    }
+    private function get($userID){
+
+        $stmt = $this->connect()->prepare('SELECT * FROM cocktails WHERE creatorID = ?;');
+        if (!$stmt->execute(array($userID))){
+            $stmt = null;
+            http_response_code(500);
+        }
+        if ($stmt->rowCount() > 0){
+            /** Set HTTP response to 200. */
+            http_response_code(200);
+            /** While variable as fetch of each row in query table. */
+            while($row = $stmt->fetch()){
+                /** Set response for each row as JSON array to equivalent value key. */
+                $this->response['cocktails'][] = [
+                    'cocktailID' => $row['cocktailID'],
+                    'creatorID' => $row['creatorID'],
+                    'cocktailName' => $row['cocktailName'],
+                    'recipe' => $row['recipe'],
+                    'image' => $row['image'],
+                    'category' => $row['category']
+                ];
+            }
+        }else{
+            /** Otherwise, set HTTP response to 204 and response JSON with result key. */
+            http_response_code(204);
+            $this->response['error'] = 'No results';
+        }
+        $this->display();
     }
     private function signUp($userName, $email, $pass, $passRpt): void
     {
