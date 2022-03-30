@@ -41,6 +41,7 @@ class cocktails extends DB
         }
         /** Parse response content by calling the display method. */
         $this->display();
+        $stmt = null;
     }
 
     /**

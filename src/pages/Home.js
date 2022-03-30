@@ -167,14 +167,17 @@ class Home extends React.Component {
                 </div>
         })
     }
-
     getIngredients(json){
         const ingredients = [];
         const keys = [];
         for (let i = 0; i < json.cocktails.length; i++) {
             for (const ingredientsKey in JSON.parse(json.cocktails[i].recipe).recipe[0].Ingredients) {
                 const listItem = (
-                    <div className={this.state.theme+"Primary ingredientsList container"} key={ingredientsKey} onClick={(evt) => {evt.target.lastChild.click()}}>
+                    <div className={this.state.theme+"Primary ingredientsList container"} key={ingredientsKey} onClick={(evt) => {
+                        if(evt.target.lastChild !== null){
+                            evt.target.lastChild.click();
+                        }
+                    }}>
                         <label>{ingredientsKey}</label>
                         <input type={"checkbox"} value={ingredientsKey} id={ingredientsKey} name={ingredientsKey} />
                     </div>
@@ -187,6 +190,29 @@ class Home extends React.Component {
         }
         return ingredients;
     }
+    recipeClick(evt){
+        evt.preventDefault();
+        let cocktails = localStorage.getItem('cocktails');
+        cocktails = JSON.parse(cocktails);
+        if (cocktails){
+            const checked = [];
+            const filtered = [];
+            for (let i = 0; i < evt.target.length; i++) {
+                if (evt.target[i].checked){
+                    checked.push(evt.target[i].id);
+                }
+            }
+            for (let j = 0; j < cocktails.cocktails.length; j++) {
+                const recipe = JSON.parse(cocktails.cocktails[j].recipe).recipe[0];
+                for (const ingredientsKey in recipe.Ingredients) {
+                    if (checked.includes(ingredientsKey)){
+                        filtered.push(cocktails.cocktails[j]);
+                    }
+                }
+            }
+            this.buildTable({'cocktails': filtered});
+        }
+    }
     handleClick(evt){
         window.scrollTo(0, 0);
         let cocktails = localStorage.getItem('cocktails');
@@ -195,10 +221,12 @@ class Home extends React.Component {
                 const ingredients = this.getIngredients(JSON.parse(cocktails));
                 this.setState({selected: "ingredients"});
                 this.setState({homeContent:
-                        <div>
-                            <button>Check recipes</button>
+                        <div className={"homeContainer"}>
                             <h1>Ingredients</h1>
-                            {ingredients}
+                            <form  onSubmit={(evt) => this.recipeClick(evt)} encType="multipart/form-data">
+                                <button type={'submit'} className={"submit homeButtons"}>Recipes</button>
+                                {ingredients}
+                            </form>
                         </div>
                 })
                 break;
@@ -210,12 +238,12 @@ class Home extends React.Component {
             case "right":
                 this.setState({selected: "filters"});
                 this.setState({homeContent:
-                        <div>
+                        <div className={"homeContainer"}>
                             <h1>Filters</h1>
                             <div className={"search"}>
                                 <h2>Search</h2>
                                 <input type="text" />
-                                <button>Search</button>
+                                <button className={"submit homeButtons"}>Search</button>
                             </div>
                             <div className={"sortBy"}>
                                 <h2>Sort By</h2>
@@ -235,7 +263,7 @@ class Home extends React.Component {
                                     <label htmlFor="oldest">Oldest</label>
                                     <input type={"radio"} id="oldest" name="sort" value="oldest"/>
                                 </div>
-                                <button>Filter</button>
+                                <button className={"submit homeButtons"}>Filter</button>
                             </div>
                         </div>
                 })
