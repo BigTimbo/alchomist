@@ -1,3 +1,8 @@
+.submitImage{
+    width: 80vw;
+    object-fit: contain;
+    margin: 0 auto 0 auto;
+}
 .profile{
     position: relative;
     height: 80vh;
@@ -5,11 +10,12 @@
 }
 .loggedContent{
     width: 100%;
+    display: inherit;
 }
 .profile fieldset{
     border: none;
 }
-.profile input{
+.profile input, textarea{
     width: 80vw;
     border-width: 2px;
     border-style: solid;
@@ -63,7 +69,7 @@
     position: fixed;
     right: 0;
 }
-.login, .signup{
+.login, .signup, .add{
     display: block;
     margin-top: auto;
     margin-bottom: auto;

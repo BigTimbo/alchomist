@@ -25,8 +25,10 @@ class Profile extends React.Component {
             emailErr: false,
             passErr: false,
             passRptErr: false,
-            profileContent: null
+            profileContent: null,
+            submitImage: null,
         }
+        this.addRef = React.createRef();
     }
     /**
      * This is a React method that is called when the component is unmounted on exit.
@@ -48,6 +50,8 @@ class Profile extends React.Component {
         }
         if (sessionStorage.getItem('profileContent')){
             this.buildContent(JSON.parse(sessionStorage.getItem('profileContent')));
+        }else{
+            this.setState({profileContent: (<h1>Add your own cocktails via the button in the top right!</h1>)});
         }
     }
     async handleSubmit(evt) {
@@ -107,7 +111,6 @@ class Profile extends React.Component {
         /** Parse formData to sendPost method with abortController. */
         const response = await this.sendPost('https://ta459.brighton.domains/alchomist/PHP/users.php', data, this.controller);
         if (response.ok) {
-
             console.log(response);
             // set session storage here
             const responseJSON = await response.json();
@@ -121,7 +124,6 @@ class Profile extends React.Component {
         }
     }
     async profileContent(userID){
-
         const response = await fetch('https://ta459.brighton.domains/alchomist/PHP/users.php?userID='+ userID);
         if (response.ok){
             const responseJSON = await response.json();
@@ -134,6 +136,7 @@ class Profile extends React.Component {
     }
     buildContent(json){
         const profileContent = [];
+        profileContent.push(<h1>My Cocktails</h1>);
         for (let i = 0; i < json.cocktails.length; i++) {
             profileContent.push(
                 <div className={"card"} key={json.cocktails[i].cocktailID} id={json.cocktails[i].cocktailID}>
@@ -162,10 +165,49 @@ class Profile extends React.Component {
             console.log(response);
         }
     }
-
-    handleClick() {
-        sessionStorage.clear();
-        this.setState({loggedIn: false});
+    displayImage(evt){
+        if (evt.target.files && evt.target.files[0]) {
+            this.addRef.current.src = URL.createObjectURL(evt.target.files[0]);
+            this.addRef.current.classList.add('recipeIMG');
+        }
+    }
+    handleClick(evt) {
+        if (evt.target.id === 'signout'){
+            sessionStorage.clear();
+            this.setState({loggedIn: false});
+        }else if(evt.target.id === 'add'){
+            const profileContent = [];
+            profileContent.push(
+                <section className="add">
+                    <form className={"form"} id="add" encType="multipart/form-data" onSubmit={async (evt) => {
+                        await this.handleSubmit(evt)
+                    }} method="post">
+                        <h1>New Cocktail</h1>
+                        <fieldset>
+                            <legend><label htmlFor="media">Please upload an image:</label></legend>
+                            {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
+                            <img className={''} ref={this.addRef} id="target" src={'data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAAKAAD/4QMraHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjMtYzAxMSA2Ni4xNDU2NjEsIDIwMTIvMDIvMDYtMTQ6NTY6MjcgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzYgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkFCOEJEOUNFQjA3MzExRUNCN0U3RTMxNTAwOTdBQ0Q1IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkFCOEJEOUNGQjA3MzExRUNCN0U3RTMxNTAwOTdBQ0Q1Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QUI4QkQ5Q0NCMDczMTFFQ0I3RTdFMzE1MDA5N0FDRDUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6QUI4QkQ5Q0RCMDczMTFFQ0I3RTdFMzE1MDA5N0FDRDUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7/7gAOQWRvYmUAZMAAAAAB/9sAhAAUEBAZEhknFxcnMiYfJjIuJiYmJi4+NTU1NTU+REFBQUFBQUREREREREREREREREREREREREREREREREREREREARUZGSAcICYYGCY2JiAmNkQ2Kys2REREQjVCRERERERERERERERERERERERERERERERERERERERERERERERERET/wAARCAABAAEDASIAAhEBAxEB/8QASwABAQAAAAAAAAAAAAAAAAAAAAYBAQAAAAAAAAAAAAAAAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAARAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/ALMAH//Z'} alt={'Users Cocktail image'}/>
+                            <input name="media" id="media" type="file" accept="image/*" onChange={(evt) => {
+                                this.displayImage(evt)}}/>
+                        </fieldset>
+                        <fieldset>
+                            <legend><label htmlFor="cocktailName">Cocktail Name</label></legend>
+                            <input type="text" name="cocktailName" placeholder="Enter your cocktail name" />
+                        </fieldset>
+                        <fieldset>
+                            <legend><label htmlFor="cocktailMethod">Method</label></legend>
+                            <textarea placeholder="Type your method details here...." name="cocktailMethod" className="method"/>
+                        </fieldset>
+                        <fieldset>
+                            <legend><label htmlFor="cocktailGarnish">Garnish</label></legend>
+                            <textarea placeholder="Type your garnish details here...." name="cocktailGarnish" className="garnish"/>
+                        </fieldset>
+                        <button className={"submit"} type="submit" name="addCocktailSubmit">Submit</button>
+                    </form>
+                </section>
+            );
+            this.setState({profileContent: profileContent});
+        }
     }
     render(){
         const userNameErr = this.state.userNameErr ? (
@@ -191,11 +233,10 @@ class Profile extends React.Component {
         const loggedIn = this.state.loggedIn ?
             (<div className={"loggedContent"}>
                 <div className="profileHeaderContent">
-                    <h3 className={"left signOut"} onClick={() => {this.handleClick()}}>Sign out</h3>
+                    <h3 className={"left signOut"} id={'signout'} onClick={(evt) => {this.handleClick(evt)}}>Sign out</h3>
                     <h1 className={"middle"}>{sessionStorage.getItem('userName')}</h1>
-                    <img className={"right addIcon"} src={add}  alt={"Add icon"}/>
+                    <img className={"right addIcon"} id={'add'} src={add}  alt={"Add icon"} onClick={(evt) => {this.handleClick(evt)}}/>
                 </div>
-                <h1>My Cocktails</h1>
                 {this.state.profileContent}
             </div>)
             :
