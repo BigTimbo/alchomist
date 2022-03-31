@@ -214,7 +214,9 @@ class Home extends React.Component {
                         <div className={"homeContainer"}>
                             <h1>Ingredients</h1>
                             <form  onSubmit={(evt) => this.recipeClick(evt)} encType="multipart/form-data">
-                                <button type={'submit'} className={"submit homeButtons"}>Recipes</button>
+                                <div className={this.state.theme+'Primary ingredientSticky'}>
+                                    <button type={'submit'} className={"submit homeButtons"}>Recipes</button>
+                                </div>
                                 {ingredients}
                             </form>
                         </div>

@@ -1,3 +1,10 @@
+.ingredientSticky{
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    margin-bottom: 0.3vh;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+}
 .homeContainer{
     display: block;
     text-align: center;
@@ -6,7 +13,7 @@
     margin: 1vh 0 1vh 0;
 }
 .search input{
-    width: 100vw;
+    width: 90vw;
     border-width: 2px;
     border-style: solid;
     border-color: #2a3940;
@@ -48,10 +55,9 @@
 .ingredientsList{
     padding: 2vh 0 2vh 0;
     font-size: 1.5em;
-    border-width: 2px;
-    border-style: solid;
-    border-bottom: none;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
     display: flex;
+    margin-bottom: 0.5vh;
 }
 
 summary {list-style: none}
