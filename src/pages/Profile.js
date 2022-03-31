@@ -219,7 +219,9 @@ class Profile extends React.Component {
                     </select>
                 </div>`;
         }else if(evt.target.id === 'remove'){
-            console.log('remove');
+            if (ingredients.children.length > 2){
+                ingredients.removeChild(ingredients.lastChild);
+            }
         }
     }
     handleClick(evt) {
