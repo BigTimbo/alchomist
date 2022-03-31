@@ -27,6 +27,10 @@ class Profile extends React.Component {
             passRptErr: false,
             profileContent: null,
             submitImage: null,
+            media: null,
+            cocktailName: null,
+            cocktailMethod: null,
+            cocktailGarnish: null,
         }
         this.addRef = React.createRef();
         this.newIngredients = React.createRef();
@@ -119,7 +123,7 @@ class Profile extends React.Component {
             sessionStorage.setItem('userName', responseJSON.userName);
             sessionStorage.setItem('preferences', responseJSON.preferences);
             this.setState({loggedIn: true});
-            await this.profileContent(responseJSON.userID);
+            await this.profileContent(sessionStorage.getItem('userID'));
         }else{
             console.log(response);
         }
@@ -127,10 +131,12 @@ class Profile extends React.Component {
     async profileContent(userID){
         const response = await fetch('https://ta459.brighton.domains/alchomist/PHP/users.php?userID='+ userID);
         if (response.ok){
-            const responseJSON = await response.json();
-            console.log(responseJSON);
-            this.buildContent(responseJSON);
-            sessionStorage.setItem('profileContent', JSON.stringify(responseJSON));
+            try{
+                const responseJSON = await response.json();
+                this.buildContent(responseJSON);
+                sessionStorage.setItem('profileContent', JSON.stringify(responseJSON));
+            }catch{
+            }
         }else{
             console.log(response);
         }
@@ -141,7 +147,7 @@ class Profile extends React.Component {
         for (let i = 0; i < json.cocktails.length; i++) {
             profileContent.push(
                 <div className={"card"} key={json.cocktails[i].cocktailID} id={json.cocktails[i].cocktailID}>
-                    <img onError={(e) => {e.currentTarget.onerror = null; e.currentTarget.src = 'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/placeholder.png'}} id={json.cocktails[i].cocktailID} className={"recipeIMG"} src={'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/' + json.cocktails[i].image} alt={"cocktail image for" + json.cocktails[i].image}/>
+                    <img onError={(e) => {e.currentTarget.onerror = null; e.currentTarget.src = 'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/placeholder.png'}} id={json.cocktails[i].cocktailID} className={"recipeIMG"} src={'https://ta459.brighton.domains/alchomist/cocktailImages/community/' + json.cocktails[i].image} alt={"cocktail image for" + json.cocktails[i].image}/>
                     <div className={"cardContainer"}>
                         <p id={json.cocktails[i].cocktailID}>{json.cocktails[i].cocktailName}</p>
                     </div>
@@ -196,20 +202,61 @@ class Profile extends React.Component {
         }
         return [ingredients, measures];
     }
-    displayImage(evt){
-        if (evt.target.files && evt.target.files[0]) {
-            this.addRef.current.src = URL.createObjectURL(evt.target.files[0]);
-            this.addRef.current.classList.add('recipeIMG');
+    /**
+     * This method is called to convert a file to base64 and returns a base64 string from the promise object.
+     * @param img Image blob.
+     * @returns {Promise<String>} Returns a String of base64.
+     */
+    getBase64Image(img) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader()
+            reader.onloadend = () => resolve(reader.result)
+            reader.onerror = reject
+            reader.readAsDataURL(img)
+        });
+    }
+    async handleInput(evt){
+        try{
+            switch (evt.target.name) {
+                case 'media':
+                    /** Check if input isn't empty. */
+                    if (evt.target.value !== ''){
+                        /** Parse the first submitted file to the getBase64Image method. */
+                        let media = await this.getBase64Image(evt.target.files[0]);
+                        /** Check file is neither jpeg/jpg or png */
+                        if (!media.includes('data:image/jpeg') && !media.includes('data:image/png')){
+                            /** if the file isn't one of those image types, report the error and reset the file field */
+                            this.setState({fileError: true})
+                            evt.target.value = '';
+                        }else{
+                            /** Otherwise set value of media field to Base64 image & reset error state */
+                            this.setState({media: media});
+                            this.setState({fileError: false})
+                        }
+                        if (evt.target.files && evt.target.files[0]) {
+                            this.addRef.current.src = URL.createObjectURL(evt.target.files[0]);
+                            this.addRef.current.classList.add('recipeIMG');
+                        }
+                    }
+                    break;
+                default :
+                    /** for all other input fields, set the state of field target to field value */
+                    this.setState({[evt.target.name]: evt.target.value})
+                    break;
+            }
+        }catch (e) {
+            console.log(e);
         }
     }
     handleIngredients(evt){
+        evt.preventDefault();
         const ingredients = this.newIngredients.current;
         if (evt.target.id === 'add'){
             const recipe = this.getIngredients(JSON.parse(localStorage.getItem('cocktails')));
             let iString = '';
-            recipe[0].map((e) => iString = iString + '<option value=' + e.key.toString() + '>' + e.key.toString() + '</option>');
+            recipe[0].map((e) => iString = iString + '<option value="' + e.key.toString() + '">' + e.key.toString() + '</option>');
             let mString = '';
-            recipe[1].map((e) => mString = mString + '<option value=' + e.key.toString() + '>' + e.key.toString() + '</option>');
+            recipe[1].map((e) => mString = mString + '<option value="' + e.key.toString() + '">' + e.key.toString() + '</option>');
             ingredients.innerHTML = ingredients.innerHTML + `<div class='addIngredient'>
                     <select  class='ingredient' name="ingredient" id="ingredient">
                         ${iString}
@@ -224,6 +271,46 @@ class Profile extends React.Component {
             }
         }
     }
+    async handleNewCocktail(evt){
+        evt.preventDefault();
+        this.setState({profileContent: <h1>Loading...</h1>});
+        const recipeIngredients = evt.target.children[5].children[1].children;
+        let Recipe = `{
+                "recipe": [
+                {
+                    "Method": "${this.state.cocktailMethod}",
+                    "Garnish": "${this.state.cocktailGarnish}",
+                    "Ingredients": {
+                    }
+                }
+            ]
+        }`;
+        Recipe = JSON.parse(Recipe);
+        const newIng = [];
+        for (let i = 0; i < recipeIngredients.length; i++) {
+            if (recipeIngredients[i].nodeName === 'DIV') {
+                const ingredient = recipeIngredients[i].children[0].value;
+                const measure = recipeIngredients[i].children[1].value;
+                newIng.push(`"${ingredient}": "${measure}"`);
+            }
+        }
+        Recipe.recipe[0].Ingredients = JSON.parse('{' + newIng.join() + '}');
+        const jsonStr = JSON.stringify(Recipe);
+        const data = new FormData();
+        /** Append all the state values to the respective formData key. */
+        data.append('creatorID', sessionStorage.getItem('userID'));
+        data.append('cocktailImage', this.state.media);
+        data.append('cocktailName', this.state.cocktailName);
+        data.append('recipe', jsonStr);
+        /** Parse formData to sendPost method with abortController. */
+        const response = await this.sendPost('https://ta459.brighton.domains/alchomist/PHP/cocktails.php', data, this.controller);
+        if (response.ok) {
+            console.log(response);
+            await this.profileContent(sessionStorage.getItem('userID'));
+        }else{
+            console.log(response);
+        }
+    }
     handleClick(evt) {
         if (evt.target.id === 'signout'){
             sessionStorage.clear();
@@ -234,27 +321,26 @@ class Profile extends React.Component {
             profileContent.push(
                 <section className="add">
                     <form className={"form"} id="add" encType="multipart/form-data" onSubmit={async (evt) => {
-                        await this.handleSubmit(evt)
+                        await this.handleNewCocktail(evt)
                     }} method="post">
                         <h1>New Cocktail</h1>
                         <fieldset>
                             <legend><label htmlFor="media">Please upload an image:</label></legend>
                             {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
                             <img className={''} ref={this.addRef} id="target" src={'data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAAKAAD/4QMraHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjMtYzAxMSA2Ni4xNDU2NjEsIDIwMTIvMDIvMDYtMTQ6NTY6MjcgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzYgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkFCOEJEOUNFQjA3MzExRUNCN0U3RTMxNTAwOTdBQ0Q1IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkFCOEJEOUNGQjA3MzExRUNCN0U3RTMxNTAwOTdBQ0Q1Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QUI4QkQ5Q0NCMDczMTFFQ0I3RTdFMzE1MDA5N0FDRDUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6QUI4QkQ5Q0RCMDczMTFFQ0I3RTdFMzE1MDA5N0FDRDUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7/7gAOQWRvYmUAZMAAAAAB/9sAhAAUEBAZEhknFxcnMiYfJjIuJiYmJi4+NTU1NTU+REFBQUFBQUREREREREREREREREREREREREREREREREREREREARUZGSAcICYYGCY2JiAmNkQ2Kys2REREQjVCRERERERERERERERERERERERERERERERERERERERERERERERERET/wAARCAABAAEDASIAAhEBAxEB/8QASwABAQAAAAAAAAAAAAAAAAAAAAYBAQAAAAAAAAAAAAAAAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAARAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/ALMAH//Z'} alt={'Users Cocktail image'}/>
-                            <input name="media" id="media" type="file" accept="image/*" onChange={(evt) => {
-                                this.displayImage(evt)}}/>
+                            <input name="media" id="media" type="file" accept="image/*" onChange={(evt) => this.handleInput(evt)}/>
                         </fieldset>
                         <fieldset>
                             <legend><label htmlFor="cocktailName">Cocktail Name</label></legend>
-                            <input type="text" name="cocktailName" placeholder="Enter your cocktail name" />
+                            <input type="text" name="cocktailName" placeholder="Enter your cocktail name" onChange={(evt) => this.handleInput(evt)}/>
                         </fieldset>
                         <fieldset>
                             <legend><label htmlFor="cocktailMethod">Method</label></legend>
-                            <textarea placeholder="Type your method details here...." name="cocktailMethod" className="method"/>
+                            <textarea placeholder="Type your method details here...." name="cocktailMethod" className="method" onChange={(evt) => this.handleInput(evt)}/>
                         </fieldset>
                         <fieldset>
                             <legend><label htmlFor="cocktailGarnish">Garnish</label></legend>
-                            <textarea placeholder="Type your garnish details here...." name="cocktailGarnish" className="garnish"/>
+                            <textarea placeholder="Type your garnish details here...." name="cocktailGarnish" className="garnish" onChange={(evt) => this.handleInput(evt)}/>
                         </fieldset>
                         <fieldset>
                             <legend><label htmlFor="cocktailRecipe">Recipe</label></legend>

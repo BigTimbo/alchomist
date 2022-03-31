@@ -32,7 +32,6 @@ select{
 }
 .loggedContent{
     width: 100%;
-    display: inherit;
 }
 .profile fieldset{
     border: none;

@@ -23,7 +23,6 @@ class users extends DB
         }
     }
     private function get($userID){
-
         $stmt = $this->connect()->prepare('SELECT * FROM cocktails WHERE creatorID = ?;');
         if (!$stmt->execute(array($userID))){
             $stmt = null;

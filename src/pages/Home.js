@@ -108,7 +108,7 @@ class Home extends React.Component {
                 if (json.cocktails[i].creatorID === null){
                     IBAContent.push(
                         <div className={"card"} key={json.cocktails[i].cocktailID} id={json.cocktails[i].cocktailID} onClick={(evt)=>{this.buildRecipe(evt)}}>
-                            <img onError={(e) => {e.currentTarget.onerror = null; e.currentTarget.src = 'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/placeholder.png'}} id={json.cocktails[i].cocktailID} className={"recipeIMG"} src={'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/' + json.cocktails[i].image} alt={"cocktail image for" + json.cocktails[i].image}/>
+                            <img onError={(e) => {e.currentTarget.onerror = null; e.currentTarget.src = 'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/placeholder.png'}} id={json.cocktails[i].cocktailID} className={"recipeIMG"} src={'https://ta459.brighton.domains/alchomist/cocktailImages/'+ (json.cocktails[i].category === 'community' ? json.cocktails[i].category + '/' : 'IBA/') + json.cocktails[i].image} alt={"cocktail image for" + json.cocktails[i].image}/>
                             <div className={"cardContainer"}>
                                 <p id={json.cocktails[i].cocktailID}>{json.cocktails[i].cocktailName}</p>
                             </div>
@@ -117,7 +117,7 @@ class Home extends React.Component {
                 }else{
                     communityContent.push(
                         <div className={"card"} key={json.cocktails[i].cocktailID} id={json.cocktails[i].cocktailID} onClick={(evt)=>{this.buildRecipe(evt)}}>
-                            <img onError={(e) => {e.currentTarget.onerror = null; e.currentTarget.src = 'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/placeholder.png'}} id={json.cocktails[i].cocktailID} className={"recipeIMG"} src={'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/' + json.cocktails[i].image} alt={"cocktail image for" + json.cocktails[i].image}/>
+                            <img onError={(e) => {e.currentTarget.onerror = null; e.currentTarget.src = 'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/placeholder.png'}} id={json.cocktails[i].cocktailID} className={"recipeIMG"} src={'https://ta459.brighton.domains/alchomist/cocktailImages/'+ (json.cocktails[i].category === 'community' ? json.cocktails[i].category + '/' : 'IBA/') + json.cocktails[i].image}  alt={"cocktail image for" + json.cocktails[i].image}/>
                             <div className={"cardContainer"}>
                                 <p id={json.cocktails[i].cocktailID}>{json.cocktails[i].cocktailName}</p>
                             </div>
@@ -143,7 +143,7 @@ class Home extends React.Component {
         this.setState({homeContent:
                 <div className={"cocktailRecipe"}>
                     <h1>{cocktail.cocktailName}</h1>
-                    <img className={"recipeIMG"} onError={(e) => {e.currentTarget.onerror = null; e.currentTarget.src = 'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/placeholder.png'}} src={'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/' + cocktail.image} alt={"cocktail image for" + cocktail.image}/>
+                    <img className={"recipeIMG"} onError={(e) => {e.currentTarget.onerror = null; e.currentTarget.src = 'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/placeholder.png'}} src={'https://ta459.brighton.domains/alchomist/cocktailImages/' + (cocktail.category === 'community' ? cocktail.category + '/' : 'IBA/') + cocktail.image} alt={"cocktail image for" + cocktail.image}/>
                     <h2>Category</h2>
                     <ul>{cocktail.category}</ul>
                     <h2>Originator</h2>
