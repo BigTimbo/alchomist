@@ -131,17 +131,7 @@ class Home extends React.Component {
         }
     }
     buildRecipe(evt){
-        let cocktails = localStorage.getItem('cocktails');
-        cocktails = cocktails.replace(/\\n/g, "\\n")
-            .replace(/\\'/g, "\\'")
-            .replace(/\\"/g, '\\"')
-            .replace(/\\&/g, "\\&")
-            .replace(/\\r/g, "\\r")
-            .replace(/\\t/g, "\\t")
-            .replace(/\\b/g, "\\b")
-            .replace(/\\f/g, "\\f");
-        // eslint-disable-next-line no-control-regex
-        cocktails = cocktails.replace(/[\u0000-\u001F]+/g,"");
+        const cocktails = localStorage.getItem('cocktails');
         const cocktail = JSON.parse(cocktails).cocktails[evt.target.id-1];
         const recipe = (JSON.parse(cocktail.recipe)).recipe[0];
         const ingredients = [];
@@ -215,7 +205,7 @@ class Home extends React.Component {
     }
     handleClick(evt){
         window.scrollTo(0, 0);
-        let cocktails = localStorage.getItem('cocktails');
+        const cocktails = localStorage.getItem('cocktails');
         switch (evt.target.id) {
             case "left":
                 const ingredients = this.getIngredients(JSON.parse(cocktails));

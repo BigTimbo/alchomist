@@ -3,6 +3,28 @@
     object-fit: contain;
     margin: 0 auto 0 auto;
 }
+.addIngredient{
+    display: inline-flex;
+    place-content: center;
+    margin-bottom: 1vh;
+}
+.measure{
+    margin-left: 2vw;
+    width: 30vw;
+}
+.newCocktailSubmit{
+    margin: 3vh 0 3vh 0;
+}
+.ingredient{
+    width: 50vw;
+}
+select{
+    border-width: 2px;
+    border-style: solid;
+    border-color: #2a3940;
+    border-image: initial;
+    height: 5vh;
+}
 .profile{
     position: relative;
     height: 80vh;

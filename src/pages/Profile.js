@@ -29,6 +29,7 @@ class Profile extends React.Component {
             submitImage: null,
         }
         this.addRef = React.createRef();
+        this.newIngredients = React.createRef();
     }
     /**
      * This is a React method that is called when the component is unmounted on exit.
@@ -165,10 +166,60 @@ class Profile extends React.Component {
             console.log(response);
         }
     }
+    getIngredients(json){
+        const ingredients = [];
+        const measures = [];
+        const ingredientsKeys = [];
+        const measuresKeys = [];
+        for (let i = 0; i < json.cocktails.length; i++) {
+            const ing = JSON.parse(json.cocktails[i].recipe).recipe[0].Ingredients;
+            const ingFlipped = Object.entries(ing)
+                .reduce((obj, [key, value]) => ({ ...obj, [value]: key }), {});
+            for (const ingredientsKey in ing) {
+                const listIngredient = (
+                    <option key={ingredientsKey} value={ingredientsKey}>{ingredientsKey}</option>
+                );
+                if (!ingredientsKeys.includes(listIngredient.key)){
+                    ingredientsKeys.push(ingredientsKey);
+                    ingredients.push(listIngredient);
+                }
+            }
+            for (const ingredientsKey in ingFlipped) {
+                const listMeasure = (
+                    <option key={ingredientsKey} value={ingredientsKey}>{ingredientsKey}</option>
+                );
+                if (!measuresKeys.includes(listMeasure.key)){
+                    measuresKeys.push(ingredientsKey);
+                    measures.push(listMeasure);
+                }
+            }
+        }
+        return [ingredients, measures];
+    }
     displayImage(evt){
         if (evt.target.files && evt.target.files[0]) {
             this.addRef.current.src = URL.createObjectURL(evt.target.files[0]);
             this.addRef.current.classList.add('recipeIMG');
+        }
+    }
+    handleIngredients(evt){
+        const ingredients = this.newIngredients.current;
+        if (evt.target.id === 'add'){
+            const recipe = this.getIngredients(JSON.parse(localStorage.getItem('cocktails')));
+            let iString = '';
+            recipe[0].map((e) => iString = iString + '<option value=' + e.key.toString() + '>' + e.key.toString() + '</option>');
+            let mString = '';
+            recipe[1].map((e) => mString = mString + '<option value=' + e.key.toString() + '>' + e.key.toString() + '</option>');
+            ingredients.innerHTML = ingredients.innerHTML + `<div class='addIngredient'>
+                    <select  class='ingredient' name="ingredient" id="ingredient">
+                        ${iString}
+                    </select>
+                    <select class='measure' name="measure" id="measure">
+                        ${mString}
+                    </select>
+                </div>`;
+        }else if(evt.target.id === 'remove'){
+            console.log('remove');
         }
     }
     handleClick(evt) {
@@ -176,6 +227,7 @@ class Profile extends React.Component {
             sessionStorage.clear();
             this.setState({loggedIn: false});
         }else if(evt.target.id === 'add'){
+            const recipe = this.getIngredients(JSON.parse(localStorage.getItem('cocktails')));
             const profileContent = [];
             profileContent.push(
                 <section className="add">
@@ -202,7 +254,32 @@ class Profile extends React.Component {
                             <legend><label htmlFor="cocktailGarnish">Garnish</label></legend>
                             <textarea placeholder="Type your garnish details here...." name="cocktailGarnish" className="garnish"/>
                         </fieldset>
-                        <button className={"submit"} type="submit" name="addCocktailSubmit">Submit</button>
+                        <fieldset>
+                            <legend><label htmlFor="cocktailRecipe">Recipe</label></legend>
+                            <div ref={this.newIngredients}>
+                                <div className={'addIngredient'}>
+                                    <select  className={'ingredient'} name="ingredient" id="ingredient">
+                                        {recipe[0]}
+                                    </select>
+                                    <select className={'measure'} name="measure" id="measure">
+                                        {recipe[1]}
+                                    </select>
+                                </div>
+                                <div className={'addIngredient'}>
+                                    <select  className={'ingredient'} name="ingredient" id="ingredient">
+                                        {recipe[0]}
+                                    </select>
+                                    <select className={'measure'} name="measure" id="measure">
+                                        {recipe[1]}
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <button id={'add'} className={'submit'} onClick={(evt)=>{this.handleIngredients(evt)}}>+</button>
+                                <button id={'remove'} className={'submit'} onClick={(evt)=>{this.handleIngredients(evt)}}>-</button>
+                            </div>
+                        </fieldset>
+                        <button className={"submit newCocktailSubmit"} type="submit" name="addCocktailSubmit">Submit</button>
                     </form>
                 </section>
             );
