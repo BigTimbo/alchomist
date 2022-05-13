@@ -10,7 +10,7 @@ import Profile from './pages/Profile';
 import HomeIcon from './media/home-icon.png';
 /**
  * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
- * @see {@link https://github.com/BigTimbo/zapApp}
+ * @see {@link https://github.com/BigTimbo/Alchomist}
  *
  * The app constructs the header and footer components and has the BrowserRouter that allows the navigation to mount the correct components.
  * @returns {JSX.Element}

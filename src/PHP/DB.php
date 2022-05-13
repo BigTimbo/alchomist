@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
- * @see {@link https://github.com/BigTimbo/zapApp}
+ * @see {@link https://github.com/BigTimbo/Alchomist}
  */
 class DB
 {
@@ -13,15 +13,15 @@ class DB
     {
         try {
             /** Brighton Domains connection details. */
-            $host = 'brighton';
-            $user = 'ta459';
-            $pwd = '!University-03841480';
-            $dbName = 'ta459_alchomist';
+//            $host = 'brighton';
+//            $user = 'ta459';
+//            $pwd = '!University-03841480';
+//            $dbName = 'ta459_alchomist';
             /** Localhost connection details. */
-//            $host = 'localhost';
-//            $user = 'root';
-//            $pwd = '';
-//            $dbName = 'alchomist';
+            $host = 'localhost';
+            $user = 'root';
+            $pwd = '';
+            $dbName = 'alchomist';
             /** Return a PDO connection to database. */
             return new PDO('mysql:host=' . $host . ';dbname=' . $dbName . ';charset=utf8mb4', $user, $pwd);
         } catch (Exception $e) {

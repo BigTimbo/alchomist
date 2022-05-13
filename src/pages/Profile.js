@@ -147,7 +147,11 @@ class Profile extends React.Component {
         for (let i = 0; i < json.cocktails.length; i++) {
             profileContent.push(
                 <div className={"card"} key={json.cocktails[i].cocktailID} id={json.cocktails[i].cocktailID}>
-                    <img onError={(e) => {e.currentTarget.onerror = null; e.currentTarget.src = 'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/placeholder.png'}} id={json.cocktails[i].cocktailID} className={"recipeIMG"} src={'https://ta459.brighton.domains/alchomist/cocktailImages/community/' + json.cocktails[i].image} alt={"cocktail image for" + json.cocktails[i].image}/>
+                    <img onError={(e) => {e.currentTarget.onerror = null;
+                        e.currentTarget.src = 'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/placeholder.png'}}
+                         id={json.cocktails[i].cocktailID} className={"recipeIMG"}
+                         src={'https://ta459.brighton.domains/alchomist/cocktailImages/community/' +
+                             json.cocktails[i].image} alt={"cocktail image for" + json.cocktails[i].image}/>
                     <div className={"cardContainer"}>
                         <p id={json.cocktails[i].cocktailID}>{json.cocktails[i].cocktailName}</p>
                     </div>
@@ -395,12 +399,19 @@ class Profile extends React.Component {
         ) : (
             ""
         );
+        const fileErr = this.state.fileError ? (
+            <p className="validateErr">Please enter a valid image.</p>
+        ) : (
+          ""
+        );
         const loggedIn = this.state.loggedIn ?
             (<div className={"loggedContent"}>
                 <div className="profileHeaderContent">
-                    <h3 className={"left signOut"} id={'signout'} onClick={(evt) => {this.handleClick(evt)}}>Sign out</h3>
+                    <h3 className={"left signOut"} id={'signout'} onClick={(evt) => {
+                        this.handleClick(evt)}}>Sign out</h3>
                     <h1 className={"middle"}>{sessionStorage.getItem('userName')}</h1>
-                    <img className={"right addIcon"} id={'add'} src={add}  alt={"Add icon"} onClick={(evt) => {this.handleClick(evt)}}/>
+                    <img className={"right addIcon"} id={'add'} src={add}  alt={"Add icon"} onClick={(evt) => {
+                        this.handleClick(evt)}}/>
                 </div>
                 {this.state.profileContent}
             </div>)
@@ -413,6 +424,7 @@ class Profile extends React.Component {
                     <form className={"form"} id="signUp" encType="multipart/form-data" onSubmit={async (evt) => {
                         await this.handleSubmit(evt)
                     }} method="post">
+                        {fileErr}
                         <fieldset>
                             <legend><label htmlFor="signupEmail">Email</label></legend>
                             <input type="text" name="signupEmail" placeholder="Enter your email" />
@@ -446,7 +458,8 @@ class Profile extends React.Component {
                     <div className="profileHeaderContent">
                         <h1 className={"middle"}>Log in</h1>
                     </div>
-                    <form className={"form"} id="logIn" encType="multipart/form-data" onSubmit={async (evt) => {await this.handleSubmit(evt)}} method="post">
+                    <form className={"form"} id="logIn" encType="multipart/form-data" onSubmit={async (evt) => {
+                        await this.handleSubmit(evt)}} method="post">
                         <fieldset>
                             <legend><label htmlFor="loginEmail">Email</label></legend>
                             <input type="text" name="loginEmail" placeholder="Enter your email" />

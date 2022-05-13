@@ -100,15 +100,20 @@ class Home extends React.Component {
         communityContent.push(
             <summary key="-1"><h1>Community Cocktails</h1></summary>
         );
-
         /** Check if JSON has header sightings. */
         if (json.cocktails){
             /** For each iteration in sightings JSON. */
             for (let i = 0; i < json.cocktails.length; i++) {
                 if (json.cocktails[i].creatorID === null){
                     IBAContent.push(
-                        <div className={"card"} key={json.cocktails[i].cocktailID} id={json.cocktails[i].cocktailID} onClick={(evt)=>{this.buildRecipe(evt)}}>
-                            <img onError={(e) => {e.currentTarget.onerror = null; e.currentTarget.src = 'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/placeholder.png'}} id={json.cocktails[i].cocktailID} className={"recipeIMG"} src={'https://ta459.brighton.domains/alchomist/cocktailImages/'+ (json.cocktails[i].category === 'community' ? json.cocktails[i].category + '/' : 'IBA/') + json.cocktails[i].image} alt={"cocktail image for" + json.cocktails[i].image}/>
+                        <div className={"card"} key={json.cocktails[i].cocktailID} id={json.cocktails[i].cocktailID}
+                             onClick={(evt)=>{this.buildRecipe(evt)}}>
+                            <img onError={(e) => {e.currentTarget.onerror = null;
+                                e.currentTarget.src = 'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/placeholder.png'}}
+                                 id={json.cocktails[i].cocktailID} className={"recipeIMG"}
+                                 src={'https://ta459.brighton.domains/alchomist/cocktailImages/'+
+                                     (json.cocktails[i].category === 'community' ? json.cocktails[i].category + '/' : 'IBA/') +
+                                     json.cocktails[i].image} alt={"cocktail image for" + json.cocktails[i].image}/>
                             <div className={"cardContainer"}>
                                 <p id={json.cocktails[i].cocktailID}>{json.cocktails[i].cocktailName}</p>
                             </div>
@@ -116,8 +121,14 @@ class Home extends React.Component {
                     );
                 }else{
                     communityContent.push(
-                        <div className={"card"} key={json.cocktails[i].cocktailID} id={json.cocktails[i].cocktailID} onClick={(evt)=>{this.buildRecipe(evt)}}>
-                            <img onError={(e) => {e.currentTarget.onerror = null; e.currentTarget.src = 'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/placeholder.png'}} id={json.cocktails[i].cocktailID} className={"recipeIMG"} src={'https://ta459.brighton.domains/alchomist/cocktailImages/'+ (json.cocktails[i].category === 'community' ? json.cocktails[i].category + '/' : 'IBA/') + json.cocktails[i].image}  alt={"cocktail image for" + json.cocktails[i].image}/>
+                        <div className={"card"} key={json.cocktails[i].cocktailID} id={json.cocktails[i].cocktailID}
+                             onClick={(evt)=>{this.buildRecipe(evt)}}>
+                            <img onError={(e) => {e.currentTarget.onerror = null;
+                                e.currentTarget.src = 'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/placeholder.png'}}
+                                 id={json.cocktails[i].cocktailID} className={"recipeIMG"}
+                                 src={'https://ta459.brighton.domains/alchomist/cocktailImages/'+
+                                     (json.cocktails[i].category === 'community' ? json.cocktails[i].category + '/' : 'IBA/') +
+                                     json.cocktails[i].image}  alt={"cocktail image for" + json.cocktails[i].image}/>
                             <div className={"cardContainer"}>
                                 <p id={json.cocktails[i].cocktailID}>{json.cocktails[i].cocktailName}</p>
                             </div>
@@ -125,7 +136,9 @@ class Home extends React.Component {
                     );
                 }
             }
-            const content = [<details open={true} key="0">{IBAContent} </details>].concat([<details open={true} key="-1">{communityContent}</details>]);
+            const content = [<details open={true} key="0">{IBAContent} </details>].concat([<details open={true} key="-1">
+                {communityContent}
+            </details>]);
             /** Set the states for both sightingsMap and content to the relevant array content constructed above. */
             this.setState({homeContent : content});
         }
@@ -143,7 +156,12 @@ class Home extends React.Component {
         this.setState({homeContent:
                 <div className={"cocktailRecipe"}>
                     <h1>{cocktail.cocktailName}</h1>
-                    <img className={"recipeIMG"} onError={(e) => {e.currentTarget.onerror = null; e.currentTarget.src = 'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/placeholder.png'}} src={'https://ta459.brighton.domains/alchomist/cocktailImages/' + (cocktail.category === 'community' ? cocktail.category + '/' : 'IBA/') + cocktail.image} alt={"cocktail image for" + cocktail.image}/>
+                    <img className={"recipeIMG"} onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = 'https://ta459.brighton.domains/alchomist/cocktailImages/IBA/placeholder.png'}}
+                         src={'https://ta459.brighton.domains/alchomist/cocktailImages/' +
+                             (cocktail.category === 'community' ? cocktail.category + '/' : 'IBA/') + cocktail.image}
+                         alt={"cocktail image for" + cocktail.image}/>
                     <h2>Category</h2>
                     <ul>{cocktail.category}</ul>
                     <h2>Originator</h2>
@@ -163,7 +181,8 @@ class Home extends React.Component {
         for (let i = 0; i < json.cocktails.length; i++) {
             for (const ingredientsKey in JSON.parse(json.cocktails[i].recipe).recipe[0].Ingredients) {
                 const listItem = (
-                    <div className={this.state.theme+"Primary ingredientsList container"} key={ingredientsKey} onClick={(evt) => {
+                    <div className={this.state.theme+"Primary ingredientsList container"} key={ingredientsKey}
+                         onClick={(evt) => {
                         if(evt.target.lastChild !== null){
                             evt.target.lastChild.click();
                         }
@@ -276,12 +295,16 @@ class Home extends React.Component {
             <div className="home">
                 <div className="homeHeaderContent">
                     {selectedBox}
-                    <img id={"left"} src={ingredientsIcon} className={"ingredientsIcon ingredients"} alt={"Ingredients icon"} onClick={(evt)=>{this.handleClick(evt)}} />
-                    <img ref={this.state.homeRef} id={"middle"} src={recipesIcon} className={"recipesIcon recipes"} alt={"Ingredients icon"} onClick={(evt)=>{this.handleClick(evt)}} />
-                    <img id={"right"} src={filtersIcon} className={"filtersIcon filters"} alt={"Filters icon"} onClick={(evt)=>{this.handleClick(evt)}} />
+                    <img id={"left"} src={ingredientsIcon} className={"ingredientsIcon ingredients"}
+                         alt={"Ingredients icon"} onClick={(evt)=>{this.handleClick(evt)}} />
+                    <img ref={this.state.homeRef} id={"middle"} src={recipesIcon} className={"recipesIcon recipes"}
+                         alt={"Ingredients icon"} onClick={(evt)=>{this.handleClick(evt)}} />
+                    <img id={"right"} src={filtersIcon} className={"filtersIcon filters"}
+                         alt={"Filters icon"} onClick={(evt)=>{this.handleClick(evt)}} />
                 </div>
                 {this.state.homeContent}
-                <div ref={this.state.homeRef} id={"middle"} className={"homeRefresh recipes"} onClick={(evt)=>{this.handleClick(evt)}} />
+                <div ref={this.state.homeRef} id={"middle"} className={"homeRefresh recipes"}
+                     onClick={(evt)=>{this.handleClick(evt)}} />
             </div>
         )
     }

@@ -5,7 +5,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 /**
  * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
- * @see {@link https://github.com/BigTimbo/zapApp}
+ * @see {@link https://github.com/BigTimbo/Alchomist}
  *
  * The index serves as the ReactDom root to render the App component.
  */
@@ -16,3 +16,5 @@ ReactDOM.render(
   document.getElementById('root')
 );
 serviceWorkerRegistration.register();
+
+
